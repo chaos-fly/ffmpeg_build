@@ -29,7 +29,8 @@ LIB_FFMPEG := ../mac/lib/libavutil.so \
 
 #all: $(PROGRAM2) encode_video decode_video transcoding
 #all: $(PROGRAM2)
-all: transcoding
+#all: transcoding
+all: decode_encode transcoding
 
 $(PROGRAM2): $(OBJ2)
 	gcc -g -o $@  $(OBJ2) $(LIBS)
@@ -41,6 +42,9 @@ decode_video: decode_video.c
 	gcc -g -o $@ $(INCLUDE) $< $(LIBS)
 
 transcoding: transcoding.c
+	gcc -g $(LDCONFIG) -o $@ $(INCLUDE) $< $(LIB_FFMPEG)
+
+decode_encode: decoding_encoding.c
 	gcc -g $(LDCONFIG) -o $@ $(INCLUDE) $< $(LIB_FFMPEG)
 
 clean:

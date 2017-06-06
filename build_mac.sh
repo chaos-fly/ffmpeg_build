@@ -13,7 +13,7 @@ function build_one
         --enable-nonfree \
         --enable-libx264 \
         --enable-shared --disable-static --enable-small \
-        --disable-ffprobe --disable-ffplay --disable-ffmpeg --disable-ffserver \
+        --disable-ffprobe --disable-ffplay --disable-ffserver \
         --extra-cflags="-g -I../mac/include -fPIC -Wfatal-errors -Wno-deprecated" \
         --extra-ldflags="-Wl,-rpath,../mac/lib -L../mac/lib" \
         --extra-libs=-ldl

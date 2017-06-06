@@ -7,3 +7,4 @@ jni/
 mac-3.3/
 cscope.*
 *.mp4
+tmp/

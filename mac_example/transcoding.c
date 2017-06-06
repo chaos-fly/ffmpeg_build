@@ -131,15 +131,16 @@ static int open_output_file(const char *filename)
                 /* take first format from list of supported formats */
                 enc_ctx->pix_fmt = encoder->pix_fmts[0];
                
-                // enc_ctx->time_base = dec_ctx->time_base;
                 // 设置为25帧
-                enc_ctx->time_base = (AVRational){1,25};
+                //enc_ctx->time_base = (AVRational){1,25};
+                enc_ctx->time_base = dec_ctx->time_base;
                 enc_ctx->bit_rate = 1024000;   //  比特率
 
-                if (dec_ctx->codec_id == AV_CODEC_ID_H264) {
-                    av_opt_set(enc_ctx->priv_data, "preset", "ultrafast", 0);
-                    //av_opt_set(enc_ctx->priv_data, "x264opts", "");
-                }
+                enc_ctx->me_range = 16;
+                enc_ctx->max_qdiff = 4;
+                enc_ctx->qmin = 10;
+                enc_ctx->qmax = 51;
+                enc_ctx->qcompress = 0.6;
             } else {
                 enc_ctx->sample_rate = dec_ctx->sample_rate;
                 enc_ctx->channel_layout = dec_ctx->channel_layout;
@@ -147,6 +148,9 @@ static int open_output_file(const char *filename)
                 /* take first format from list of supported formats */
                 enc_ctx->sample_fmt = encoder->sample_fmts[0];
                 enc_ctx->time_base = (AVRational){1, enc_ctx->sample_rate};
+
+                // aac 支持
+                enc_ctx->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
             }
 
             /* Third parameter can be used to pass settings to encoder */
@@ -154,6 +158,11 @@ static int open_output_file(const char *filename)
             if (ret < 0) {
                 av_log(NULL, AV_LOG_ERROR, "Cannot open video encoder for stream #%u\n", i);
                 return ret;
+            }
+
+            if (enc_ctx->codec_id == AV_CODEC_ID_H264) {
+                av_opt_set(enc_ctx, "preset", "ultrafast", 0);
+                //av_opt_set(enc_ctx->priv_data, "x264opts", "");
             }
 
         } else if (dec_ctx->codec_type == AVMEDIA_TYPE_UNKNOWN) {
@@ -487,6 +496,8 @@ int main(int argc, char **argv)
         av_log(NULL, AV_LOG_ERROR, "Usage: %s <input file> <output file>\n", argv[0]);
         return 1;
     }
+
+    av_log_set_level(AV_LOG_WARNING);
 
     av_register_all();
     avfilter_register_all();
