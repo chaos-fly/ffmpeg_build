@@ -15,7 +15,6 @@ function build_one
         --disable-stripping \
         --enable-gpl \
         --enable-nonfree \
-        --enable-libx264 \
         --enable-shared --disable-static --enable-small \
         --disable-ffprobe --disable-ffplay --disable-ffmpeg --disable-ffserver \
         --extra-cflags="-I../mac/include -fPIC -Wfatal-errors -Wno-deprecated" \

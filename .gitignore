@@ -1,4 +1,8 @@
 ffmpeg/
 x264/
 mac/
+android/
+ffmpeg-3.3/
+jni/
+mac-3.3/
 cscope.*

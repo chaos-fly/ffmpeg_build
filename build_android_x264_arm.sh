@@ -4,6 +4,8 @@ export PREBUILT=$NDK/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64
 export PLATFORM=$NDK/platforms/android-15/arch-arm
 export PREFIX=android/arm
 
+cd ffmpeg
+
 function build_one
 {  
     ./configure \
