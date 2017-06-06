@@ -1,7 +1,8 @@
 #!/bin/bash
-cd x264
 
 PREFIX=../mac
+
+cd x264
 
 ./configure --prefix=$PREFIX \
     --enable-static \
@@ -10,7 +11,7 @@ PREFIX=../mac
     --disable-cli 
 
 make clean
-make
+make -j 4
 make install
 
 cd ../
